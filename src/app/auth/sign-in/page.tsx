@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
 
@@ -6,6 +8,41 @@ import React from 'react';
  * @returns The sign-in page component.
  */
 export default function Page(): React.JSX.Element {
+
+  const [state, setState] = React.useState({
+    username: '',
+    password: '',
+  });
+
+  // Handle form change event
+  const onFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+    const { name, value } = event.target;
+
+    // Update state based on input name
+    for(const key in state) {
+      if(key === name) {
+        setState({
+          ...state,
+          [key]: value,
+        });
+      }
+    }
+  }
+
+  // Handle form submit event
+  const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const response = await fetch('/auth/api', {
+      headers: {
+        'Method': 'Sign-in',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(state)
+    });
+  }
+
   return (
     <div className='grid grid-rows-3 items-center justify-center h-full'>
       {/* Header */}
@@ -23,20 +60,21 @@ export default function Page(): React.JSX.Element {
       </div>
       <div className='flex flex-col items-center justify-center'>
         {/* Login form */}
-        <form className='grid grid-rows-3 items-center justify-center bg-gray-200 h-48 w-60 rounded-xl'>
+        <form className='grid grid-rows-3 items-center justify-center bg-gray-200 h-48 w-60 rounded-xl'
+          onSubmit={onFormSubmit} onChange={onFormChange}>
           <div className='flex flex-col items-center gap-2 text-center'>
             {/* Username */}
             <label className='font-medium'>
               Username
             </label>
-            <input className='rounded-md' type='text' required />
+            <input name='username' className='rounded-md' type='text' required />
           </div>
           <div className='flex flex-col items-center gap-2 text-center'>
             {/* Password */}
             <label className='font-medium'>
               Password
             </label>
-            <input className='rounded-md' type='password' required />
+            <input name='password' className='rounded-md' type='password' required />
           </div>
           <div className='flex flex-col items-center'>
             {/* Submit */}
