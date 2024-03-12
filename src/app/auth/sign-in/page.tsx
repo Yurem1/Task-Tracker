@@ -37,7 +37,7 @@ export default function Page(): React.JSX.Element {
     event.preventDefault();
 
     // Send POST request to server
-    const response = await fetch('/auth/api', {
+    const response = await fetch('/auth/sign-in/api', {
       method: 'POST',
       headers: {
         'Fetch-Type': 'Sign-in',
