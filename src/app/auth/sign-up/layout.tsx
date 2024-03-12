@@ -15,8 +15,11 @@ interface IRootLayout {
 }
 
 export default function RootLayout({ children }: IRootLayout) {
+  
+  const classes = 'h-full';
+
   return (
-    <section>
+    <section className={classes}>
       {children}
     </section>
   );
