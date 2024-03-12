@@ -7,15 +7,23 @@ import { Mongo } from '@/app/auth/api/mongo';
  * @returns The response.
  */
 export async function POST(req: NextRequest): Promise<NextResponse> {
-	const request = await req.json();
+  const res = await req.json();
 
-  const mongo = new Mongo().dbCollection;
-  console.log(await mongo.countDocuments())
-  await mongo.insertOne(request);
+  const mongo = new Mongo(res);
 
-	return new NextResponse(JSON.stringify(request), {
+  if(await mongo.doesProfileExist()) {
+    return new NextResponse(JSON.stringify(res), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 409,
+      statusText: 'Account already exists',
+    });
+  }
+
+	return new NextResponse(JSON.stringify(res), {
 		headers: {
-			"content-type": "application/json",
+			'Content-Type': 'application/json',
 		},
     status: 200,
     statusText: 'OK',
