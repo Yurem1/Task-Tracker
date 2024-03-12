@@ -28,7 +28,7 @@ export default function Page(): React.JSX.Element {
   const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await fetch('/auth/api', {
+    const response = await fetch('/auth/sign-up/api', {
       method: 'POST',
       headers: {
         'Fetch-Type': 'Sign-in',
