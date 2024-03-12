@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 /**
@@ -8,6 +9,8 @@ import React from 'react';
  * @returns The sign-in page component.
  */
 export default function Page(): React.JSX.Element {
+
+  const router = useRouter();
 
   const [state, setState] = React.useState({
     username: '',
@@ -19,12 +22,12 @@ export default function Page(): React.JSX.Element {
     const { name, value } = event.target;
 
     // Update state based on input name
-    for(const key in state) {
-      if(key === name) {
-        setState({
-          ...state,
-          [key]: value,
-        });
+    for (const key in state) {
+      if (key === name) {
+      setState({
+        ...state,
+        [key]: value,
+      });
       }
     }
   }
@@ -33,14 +36,19 @@ export default function Page(): React.JSX.Element {
   const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // Send POST request to server
     const response = await fetch('/auth/api', {
+      method: 'POST',
       headers: {
-        'Method': 'Sign-in',
+        'Fetch-Type': 'Sign-in',
         'Content-Type': 'application/json',
       },
-      method: 'POST',
       body: JSON.stringify(state)
     });
+
+    if(response.ok) {
+      router.replace('/');
+    }
   }
 
   return (
@@ -58,26 +66,27 @@ export default function Page(): React.JSX.Element {
           </p>
         </div>
       </div>
+      {/* Login form */}
       <div className='flex flex-col items-center justify-center'>
-        {/* Login form */}
-        <form className='grid grid-rows-3 items-center justify-center bg-gray-200 h-48 w-60 rounded-xl'
+        <form className='grid grid-rows-3 items-center justify-center
+          bg-gray-200 h-48 w-60 border-2 border-black rounded-xl'
           onSubmit={onFormSubmit} onChange={onFormChange}>
+          {/* Username */}
           <div className='flex flex-col items-center gap-2 text-center'>
-            {/* Username */}
             <label className='font-medium'>
-              Username
+              Username:
             </label>
             <input name='username' className='rounded-md' type='text' required />
           </div>
+          {/* Password */}
           <div className='flex flex-col items-center gap-2 text-center'>
-            {/* Password */}
             <label className='font-medium'>
-              Password
+              Password:
             </label>
             <input name='password' className='rounded-md' type='password' required />
           </div>
+          {/* Submit */}
           <div className='flex flex-col items-center'>
-            {/* Submit */}
             <button className='bg-white px-4 rounded-md hover:scale-95' type='submit'>
               <h1 className='font-medium'>
                 Sign-In
@@ -85,8 +94,8 @@ export default function Page(): React.JSX.Element {
             </button>
           </div>
         </form>
-        <div className='text-center m-1'>
-          {/* Sign-up */}
+        {/* Sign-up */}
+        <div className='self-center text-center m-1'>
           <Link className='active:scale-95' href='/auth/sign-up'>
             <h1 className='text-xs'>
               Don't have an account?
