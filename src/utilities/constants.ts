@@ -1,23 +1,39 @@
-import { IHTTPConstants } from '@/utilities/interfaces';
+import { IHTTPConstants, ILogin } from '@/utilities/interfaces';
 
-export class HTTPConstants {
-  public static ACCOUNT_ALREADY_EXISTS: IHTTPConstants = {
+/**
+ * @constant
+ * Constants related to forms.
+ */
+export const FormConstants = {
+  /**
+   * @constant
+   * Default values for form fields.
+   */
+  DEFAULT_VALUE: {
+    username: '',
+    password: ''
+  }
+} satisfies Record<string, ILogin>;
+
+/**
+ * @constant
+ * HTTP Constants object that contains predefined status codes and status texts.
+ */
+export const HTTPConstants = {
+  ACCOUNT_ALREADY_EXISTS: {
     status: 409,
     statusText: 'Account already exists!'
-  };
-
-  public static ACCOUNT_NOT_FOUND: IHTTPConstants = {
+  },
+  ACCOUNT_NOT_FOUND: {
     status: 404,
     statusText: 'Account not found.'
-  }
-
-  public static ACCOUNT_CREATED_SUCCESSFULLY: IHTTPConstants = {
+  },
+  ACCOUNT_CREATED_SUCCESSFULLY: {
     status: 200,
-    statusText: 'Account created successfully.'
-  }
-
-  public static ACCOUNT_FOUND_SUCCESSFULLY: IHTTPConstants = {
+    statusText: 'Account created successfully'
+  },
+  ACCOUNT_FOUND_SUCCESSFULLY: {
     status: 200,
     statusText: 'Account found successfully.'
   }
-}
+} satisfies Record<string, IHTTPConstants>
