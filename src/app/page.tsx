@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 
+/**
+ * Renders the Page component.
+ * This component displays a task tracker page with sign-in and sign-up options.
+ */
 export default function Page() {
   return (
     <div className='grid grid-rows-3 items-start justify-items-center h-full'>
