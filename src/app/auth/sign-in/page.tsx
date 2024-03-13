@@ -47,7 +47,7 @@ export default function Page(): React.JSX.Element {
     });
 
     if(response.ok) {
-      router.replace('/');
+      router.replace('/dashboard/tasks');
     }
   }
 
