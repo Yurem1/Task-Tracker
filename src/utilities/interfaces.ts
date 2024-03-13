@@ -26,3 +26,8 @@ export interface IProfile {
   password: string;
   tasks: ITasks[];
 }
+
+export interface IHTTPConstants {
+  status: number;
+  statusText: string;
+}
