@@ -4,6 +4,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
+/**
+ * Renders the sign-up page component.
+ * @returns The sign-up page component.
+ */
 export default function Page(): React.JSX.Element {
   const router = useRouter();
 
@@ -12,6 +16,7 @@ export default function Page(): React.JSX.Element {
     password: '',
   });
 
+  // Handle form input change
   const onFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
     const { name, value } = event.target;
 
@@ -25,6 +30,7 @@ export default function Page(): React.JSX.Element {
     }
   };
 
+  // Handle form submission
   const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -38,7 +44,7 @@ export default function Page(): React.JSX.Element {
     });
 
     if (response.ok) {
-      router.replace('/');
+      router.replace('/dashboard/tasks');
     }
   };
 
