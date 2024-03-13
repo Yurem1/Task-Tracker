@@ -28,6 +28,7 @@ export interface IProfile {
 }
 
 /**
+ * @interface
  * Represents the interface for HTTP constants.
  */
 export interface IHTTPConstants {
