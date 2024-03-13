@@ -27,6 +27,9 @@ export interface IProfile {
   tasks: ITasks[];
 }
 
+/**
+ * Represents the interface for HTTP constants.
+ */
 export interface IHTTPConstants {
   status: number;
   statusText: string;
