@@ -33,6 +33,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   // Fetch the created profile from the database
   const profile = await client.fetchProfile();
   
+  // Finally return the fetched profile from the database
   return new NextResponse(JSON.stringify(profile), {
     headers: {
       'Content-Type': 'application/json'
