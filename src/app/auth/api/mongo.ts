@@ -36,7 +36,7 @@ export class Mongo {
 
 	/**
 	 * Finds the profile in the database.
-	 * @returns A promise that resolves when the profile is found.
+	 * @returns A boolean that resolves when the profile is found.
 	 */
 	public async doesProfileExist(): Promise<boolean> {
 		const profile = await this.collection.findOne({
