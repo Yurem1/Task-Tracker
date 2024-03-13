@@ -56,6 +56,22 @@ export class Mongo {
 			tasks: []
 		};
 
-		await this.collection.insertOne(profile);
+		if(await this.doesProfileExist()) {
+			return;
+		}
+
+		await this.collection.insertOne(profile);	
+	}
+	
+	/**
+	 * Fetches the user profile from the database.
+	 * @returns A Promise that resolves to the fetched profile or null if not found.
+	 */
+	public async fetchProfile(): Promise<IProfile | null> {
+		const req = await this.collection.findOne<IProfile>({
+			...this.profile
+		});
+		
+		return req;
 	}
 }
