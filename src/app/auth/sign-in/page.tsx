@@ -1,7 +1,9 @@
 'use client';
 
-import Link from 'next/link';
+import { FormConstants } from '@/utilities/constants';
+import { ILogin } from '@/utilities/interfaces';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import React from 'react';
 
 /**
@@ -12,10 +14,9 @@ export default function Page(): React.JSX.Element {
 
   const router = useRouter();
 
-  const [state, setState] = React.useState({
-    username: '',
-    password: '',
-  });
+  const [showError, setError] = React.useState<boolean>(true);
+
+  const [state, setState] = React.useState<ILogin>(FormConstants.DEFAULT_VALUE);
 
   // Handle form change event
   const onFormChange = (event: React.ChangeEvent<HTMLFormElement>) => {
@@ -45,6 +46,10 @@ export default function Page(): React.JSX.Element {
       },
       body: JSON.stringify(state)
     });
+
+    if(response.status > 399) {
+      setError(false);
+    }
 
     if(response.ok) {
       router.replace('/dashboard/tasks');
@@ -95,13 +100,26 @@ export default function Page(): React.JSX.Element {
           </div>
         </form>
         {/* Sign-up */}
-        <div className='self-center text-center m-1'>
+        <div className='self-center text-center m-2'>
           <Link className='active:scale-95' href='/auth/sign-up'>
             <h1 className='text-xs'>
               Don't have an account?
             </h1>
           </Link>
         </div>
+      </div>
+      {/* Error Section */}
+      <div className='self-start ease-in-out'>
+        {!showError && (
+          <div className='text-center text-xs text-red-500'>
+            <h1 className=''>
+              Account not found.
+            </h1>
+            <p>
+              Check your username or password.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
