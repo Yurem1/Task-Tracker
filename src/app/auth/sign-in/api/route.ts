@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Mongo } from '@/app/auth/api/mongo';
+import { HTTPConstants } from '@/utilities/constants';
+import { IProfile } from '@/utilities/interfaces';
 
 /**
  * Handles the POST request for the sign-in page.
@@ -7,34 +9,28 @@ import { Mongo } from '@/app/auth/api/mongo';
  * @returns The response.
  */
 export async function POST(req: NextRequest): Promise<NextResponse> {
+
+  // Parse the request body as JSON
   const res = await req.json();
 
-  const mongo = new Mongo(res);
+  // Create a new Mongo client instance with the parsed JSON
+  const client = new Mongo(res);
 
-  if(await mongo.doesProfileExist()) {
+  if(await client.doesProfileExist() === false) {
     return new NextResponse(JSON.stringify(res), {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      status: 409,
-      statusText: 'Account already exists',
+      ...HTTPConstants.ACCOUNT_NOT_FOUND
     });
   }
 
-	return new NextResponse(JSON.stringify(res), {
-		headers: {
-			'Content-Type': 'application/json',
-		},
-    status: 200,
-    statusText: 'OK',
-	});
-}
+  const profile = await client.fetchProfile();
 
-/**
- * Handles the GET request for the sign-in page.
- * @param req The incoming request.
- * @returns The response.
- */
-export async function GET(req: NextRequest): Promise<NextResponse> {
-	return new NextResponse('Hello World');
+  return new NextResponse(JSON.stringify(profile), {
+    headers: {
+      'Content-Type': 'application/json'
+    }, 
+    ...HTTPConstants.ACCOUNT_FOUND_SUCCESSFULLY
+  });
 }
