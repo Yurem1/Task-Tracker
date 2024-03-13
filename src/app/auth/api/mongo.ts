@@ -56,10 +56,6 @@ export class Mongo {
       tasks: []
     };
 
-    if(await this.doesProfileExist()) {
-      return;
-    }
-
     await this.collection.insertOne(profile);	
   }
   
