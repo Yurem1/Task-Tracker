@@ -35,7 +35,7 @@ export default function Page(): React.JSX.Element {
   const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
-    const response = await fetch('/auth/sign-up/api', {
+    const request = await fetch('/auth/sign-up/api', {
       method: 'POST',
       headers: {
         'Fetch-Type': 'Sign-in',
@@ -44,12 +44,25 @@ export default function Page(): React.JSX.Element {
       body: JSON.stringify(state),
     });
 
-    if(response.status > 399) {
+    if(request.status > 399) {
       setError(false);
     }
+      
+    if(request.ok) {
+      
+      const res = await request.json();
+      const req = await fetch('/dashboard/api', {
+        method: 'POST',
+        headers: {
+          'Fetch-Type': 'Profile',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(res)
+      });
 
-    if(response.ok) {
-      router.replace('/dashboard/tasks');
+      if(req.ok) {
+        router.replace('/dashboard/tasks');
+      }
     }
   };
 
