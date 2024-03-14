@@ -14,8 +14,11 @@ export default function Page(): React.JSX.Element {
 
   const router = useRouter();
 
+  // In case there is a server-side error, this variable is used to toggle whether to render
+  // the error or not.
   const [showError, setError] = React.useState<boolean>(true);
-
+  
+  // Form data gets stored in here
   const [state, setState] = React.useState<ILogin>(FormConstants.DEFAULT_VALUE);
 
   // Handle form change event
@@ -52,8 +55,10 @@ export default function Page(): React.JSX.Element {
     }
 
     if(request.ok) {
-
-      const res = await request.json();      
+      
+      // Response json is stored here.
+      const res = await request.json(); 
+      // Send back the response to dashboard/api.     
       const req = await fetch('/dashboard/api', {
         method: 'POST',
         headers: {
