@@ -16,7 +16,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   // Create a new Mongo client instance with the parsed JSON
   const client = new Mongo(res);
 
+  // Checks if the account already exists in the database.
   if(await client.doesProfileExist() === false) {
+    // Finally return an error response if true.
     return new NextResponse(JSON.stringify(res), {
       headers: {
         'Content-Type': 'application/json'
@@ -25,8 +27,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     });
   }
 
+  // Fetch profile from the database
   const profile = await client.fetchProfile();
 
+  // Finally return the profile.  
   return new NextResponse(JSON.stringify(profile), {
     headers: {
       'Content-Type': 'application/json'
