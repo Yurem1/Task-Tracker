@@ -13,8 +13,10 @@ import React from 'react';
 export default function Page(): React.JSX.Element {
   const router = useRouter();
 
+  // Boolean toggles whether to render an error message in case we encounter a server-side error
   const [showError, setError] = React.useState<boolean>(true);
 
+  // Form data is stored here.
   const [state, setState] = React.useState<ILogin>(FormConstants.DEFAULT_VALUE);
 
   // Handle form input change
@@ -35,6 +37,7 @@ export default function Page(): React.JSX.Element {
   const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
+    // Send request to server 
     const request = await fetch('/auth/sign-up/api', {
       method: 'POST',
       headers: {
@@ -50,7 +53,9 @@ export default function Page(): React.JSX.Element {
       
     if(request.ok) {
       
+      // Store response in here
       const res = await request.json();
+      // Finally, we send the response back, this time, to dashboard/api.
       const req = await fetch('/dashboard/api', {
         method: 'POST',
         headers: {
