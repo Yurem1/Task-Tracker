@@ -14,9 +14,9 @@ export interface ILogin {
  * Represents the tasks data for the user profile.
  */
 export interface ITasks {
-  dataCreated: string;
   name: string;
   value: string;
+  dataCreated: Date;
 }
 
 /**
