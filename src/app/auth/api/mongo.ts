@@ -1,21 +1,24 @@
 import { ILogin, IProfile } from '@/utilities/interfaces';
-import { MongoClient, Collection, Db } from 'mongodb';
+import { MongoClient, Collection, Db, ObjectId } from 'mongodb';
 
 /**
  * @class
  * Represents a MongoDB connection and provides methods to interact with the database.
  */
 export class Mongo {
+  // MongoDB objects
   private client: MongoClient;
   private database: Db;
   private collection: Collection;
 
   /**
+   * @property
    * The profile used for authentication.
    */
-  public readonly profile: ILogin;
+  private readonly profile: ILogin;
 
   /**
+   * @constructor 
    * Creates a new instance of the Mongo class.
    * @param _profile - The profile used for authentication.
    */
@@ -53,7 +56,7 @@ export class Mongo {
   public async addProfile(): Promise<void> {
     const profile: IProfile = {
       ...this.profile,
-      tasks: []
+      tasks: [],
     };
 
     await this.collection.insertOne(profile);	
@@ -67,7 +70,7 @@ export class Mongo {
     const req = await this.collection.findOne<IProfile>({
       ...this.profile
     });
-    
+
     return req;
   }
 }
