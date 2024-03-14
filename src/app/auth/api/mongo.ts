@@ -1,4 +1,4 @@
-import { ILogin, IProfile } from '@/utilities/interfaces';
+import { ILogin, IProfile, ITasks } from '@/utilities/interfaces';
 import { MongoClient, Collection, Db, ObjectId } from 'mongodb';
 
 /**
@@ -72,5 +72,14 @@ export class Mongo {
     });
 
     return req;
+  }
+
+  /**
+   * Adds a task to the user's profile in the database.
+   * @param task - The task to be added.
+   * @returns A promise that resolves when the task is added.
+   */
+  public async addTask(task: ITasks): Promise<void> {
+    
   }
 }
