@@ -25,10 +25,10 @@ export default function Page(): React.JSX.Element {
     // Update state based on input name
     for (const key in state) {
       if (key === name) {
-      setState({
-        ...state,
-        [key]: value,
-      });
+        setState({
+          ...state,
+          [key]: value,
+        });
       }
     }
   }
@@ -38,7 +38,7 @@ export default function Page(): React.JSX.Element {
     event.preventDefault();
 
     // Send POST request to server
-    const response = await fetch('/auth/sign-in/api', {
+    const request = await fetch('/auth/sign-in/api', {
       method: 'POST',
       headers: {
         'Fetch-Type': 'Sign-in',
@@ -47,12 +47,25 @@ export default function Page(): React.JSX.Element {
       body: JSON.stringify(state)
     });
 
-    if(response.status > 399) {
+    if(request.status > 399) {
       setError(false);
     }
 
-    if(response.ok) {
-      router.replace('/dashboard/tasks');
+    if(request.ok) {
+
+      const res = await request.json();      
+      const req = await fetch('/dashboard/api', {
+        method: 'POST',
+        headers: {
+          'Fetch-Type': 'Profile',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(res)
+      });
+
+      if(req.ok) {
+        router.replace('/dashboard/tasks');
+      }
     }
   }
 
@@ -74,7 +87,8 @@ export default function Page(): React.JSX.Element {
       {/* Login form */}
       <div className='flex flex-col items-center justify-center'>
         <form className='grid grid-rows-3 items-center justify-center
-          bg-gray-200 h-48 w-60 border-2 border-black rounded-xl'
+          bg-gray-200 h-48 w-60 border-2 border-black rounded-xl
+          sticky'
           onSubmit={onFormSubmit} onChange={onFormChange}>
           {/* Username */}
           <div className='flex flex-col items-center gap-2 text-center'>
