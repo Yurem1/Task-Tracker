@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 /**
  * @interface
  * Represents the login information to be used for authentication.
@@ -22,6 +24,7 @@ export interface ITasks {
  * Represents the user profile information
  */
 export interface IProfile {
+  _id?: ObjectId;
   username: string;
   password: string;
   tasks: ITasks[];
