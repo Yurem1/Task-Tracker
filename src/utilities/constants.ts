@@ -1,4 +1,5 @@
-import { IHTTPConstants, ILogin } from '@/utilities/interfaces';
+import { IHTTPConstants, ILogin, IProfile } from '@/utilities/interfaces';
+import { ObjectId } from 'mongodb';
 
 /**
  * @constant
@@ -13,7 +14,23 @@ export const FormConstants = {
     username: '',
     password: ''
   }
+
 } satisfies Record<string, ILogin>;
+
+/**
+ * @constants
+ * Represents the profile constants for the task tracker application.
+ */
+export const ProfileConstants = {
+  /**
+   * The default profile object.
+   */
+  DEFAULT_PROFILE: {
+    username: '',
+    password: '',
+    tasks: [],
+  }
+} satisfies Record<string, IProfile>;
 
 /**
  * @constant
@@ -30,10 +47,14 @@ export const HTTPConstants = {
   },
   ACCOUNT_CREATED_SUCCESSFULLY: {
     status: 200,
-    statusText: 'Account created successfully'
+    statusText: 'Account created successfully.'
   },
   ACCOUNT_FOUND_SUCCESSFULLY: {
     status: 200,
     statusText: 'Account found successfully.'
+  },
+  ACCOUNT_POSTED_SUCCESSFULLY: {
+    status: 200,
+    statusText: 'Account posted successfully.'
   }
 } satisfies Record<string, IHTTPConstants>
