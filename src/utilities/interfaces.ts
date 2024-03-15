@@ -38,3 +38,18 @@ export interface IHTTPConstants {
   status: number;
   statusText: string;
 }
+
+/**
+ * Represents the interface for the dashboard tasks.
+ */
+export interface IDashboardTasks {
+  /**
+   * Represents the login profile.
+   */
+  profile: IProfile,
+
+  /**
+   * Represents the tasks to be added.
+   */
+  newTask: ITasks
+}
