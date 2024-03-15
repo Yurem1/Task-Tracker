@@ -9,7 +9,7 @@ export class Mongo {
   // MongoDB objects
   private client: MongoClient;
   private database: Db;
-  private collection: Collection;
+  private collection: Collection<IProfile>;
 
   /**
    * @property
@@ -25,7 +25,7 @@ export class Mongo {
   public constructor(_profile: ILogin) {
     this.client = new MongoClient(process.env.MONGO_URI as string);
     this.database = this.client.db('task-tracker');
-    this.collection = this.database.collection('tasks');
+    this.collection = this.database.collection<IProfile>('tasks');
 
     this.profile = _profile;
   }
@@ -33,7 +33,7 @@ export class Mongo {
   /**
    * Returns the MongoDB collection used for database operations.
    */
-  public get dbCollection(): Collection {
+  public get dbCollection(): Collection<IProfile> {
     return this.collection;
   }
 
@@ -79,7 +79,15 @@ export class Mongo {
    * @param task - The task to be added.
    * @returns A promise that resolves when the task is added.
    */
-  public async addTask(task: ITasks): Promise<void> {
-    
+  public async addTask(task: ITasks): Promise<IProfile | null> {
+    const req = await this.collection.findOneAndUpdate(this.profile, {
+      $push: {
+        tasks: {
+          ...task
+        }
+      }
+    });
+
+    return req;
   }
 }
