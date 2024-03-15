@@ -42,7 +42,9 @@ export default function Page(): React.JSX.Element {
         </button>
       </div>
       {addTask && (
-        <AddTasks/>
+        <AddTasks profile={{
+          login: profile as IProfile
+        }}/>
       )}
     </div>
   )
