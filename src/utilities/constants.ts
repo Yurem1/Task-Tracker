@@ -85,5 +85,12 @@ export const HTTPConstants = {
   ACCOUNT_POSTED_SUCCESSFULLY: {
     status: 200,
     statusText: 'Account posted successfully.'
+  },
+  /**
+   * Added a new task successfully constant.
+   */
+  ADDED_TASK_SUCCESSFULLY: {
+    status: 200,
+    statusText: 'Added a task successfully.'
   }
 } satisfies Record<string, IHTTPConstants>
