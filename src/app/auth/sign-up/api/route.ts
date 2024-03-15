@@ -22,6 +22,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return new NextResponse(JSON.stringify(res), {
       headers: {
         'Content-Type': 'application/json',
+        'Response-Type': 'Error'
       },
       ...HTTPConstants.ACCOUNT_ALREADY_EXISTS
     });
