@@ -1,10 +1,16 @@
 'use client';
 
 import { TaskConstants } from '@/utilities/constants';
-import { ITasks } from '@/utilities/interfaces';
+import { IDashboardTasks, IProfile, ITasks } from '@/utilities/interfaces';
 import React from 'react';
 
-export default function AddTasks(): React.JSX.Element {
+interface IAddTasks {
+  profile: {
+    login: IProfile
+  }
+}
+
+export default function AddTasks({profile}: IAddTasks): React.JSX.Element {
 
   const [state, setState] = React.useState<ITasks>(
     TaskConstants.DEFAULT_TASK
@@ -23,8 +29,21 @@ export default function AddTasks(): React.JSX.Element {
     }
   }
 
-  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const req = await fetch('/dashboard/tasks/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        profile: profile.login,
+        newTask: state
+      })
+    });
+
+    console.log(req);
   }
 
   return (
